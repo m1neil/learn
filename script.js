@@ -1,41 +1,86 @@
 'use strict';
 
-const numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+let numberOfFilms;
+
+function start() {
+	do {
+		numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+	} while (
+		numberOfFilms === 0 ||
+		numberOfFilms === null ||
+		isNaN(numberOfFilms)
+	);
+}
+
+start();
 
 const personalMovieDB = {
 	count: numberOfFilms,
 	movies: {},
 	actors: {},
 	genres: [],
-	private: false
+	private: false,
 };
 
-const countQuestions = 2;
+askLastWatchedMovie(2);
 
-for (let i = 0; i < countQuestions; i++) {
-	const lastWatchFilm = prompt('Один из последних просмотренных фильмов?', ''),
-		ratingFilms = prompt('На сколько оцените его?', '');
+function askLastWatchedMovie(countQuestions) {
+	for (let i = 0; i < countQuestions; i++) {
+		const lastWatchFilm = prompt(
+				'Один из последних просмотренных фильмов?',
+				''
+			),
+			ratingFilms = prompt('На сколько оцените его?', '');
 
-	if (lastWatchFilm !== '' && lastWatchFilm !== null && lastWatchFilm.length <= 50 && ratingFilms !== null &&
-		!isNaN(ratingFilms) && ratingFilms !== '') {
-		personalMovieDB.movies[lastWatchFilm] = ratingFilms;
-		console.log('correct');
-	} else {
-		console.log('error');
-		i--;
+		if (
+			lastWatchFilm !== '' &&
+			lastWatchFilm !== null &&
+			lastWatchFilm.length <= 50 &&
+			ratingFilms !== null &&
+			!isNaN(ratingFilms) &&
+			ratingFilms !== ''
+		) {
+			personalMovieDB.movies[lastWatchFilm] = ratingFilms;
+			console.log('correct');
+		} else {
+			console.log('error');
+			i--;
+		}
 	}
 }
 
-const watchedMoverCount = personalMovieDB.count;
+writeYourGenres();
 
-if (watchedMoverCount < 10) {
-	console.log('Просмотрено довольно мало фильмов');
-} else if (watchedMoverCount >= 10 && watchedMoverCount <= 30) {
-	console.log('Вы классический зритель');
-} else if (watchedMoverCount > 30) {
-	console.log('Вы киноман');
-} else {
-	console.log('Произошла ошибка');
+function writeYourGenres() {
+	for (let i = 1; i <= 3; i++) {
+		const loveGenre = prompt(`Ваш любимый жанр под номером ${i}`, '');
+
+		if (loveGenre !== '' && loveGenre !== null) {
+			personalMovieDB.genres.push(loveGenre);
+		} else {
+			i--;
+		}
+	}
 }
 
-console.log(personalMovieDB);
+// detectPersonalLevel(personalMovieDB.count);
+
+function detectPersonalLevel(watchedMoverCount) {
+	if (watchedMoverCount < 10) {
+		console.log('Просмотрено довольно мало фильмов');
+	} else if (watchedMoverCount >= 10 && watchedMoverCount <= 30) {
+		console.log('Вы классический зритель');
+	} else if (watchedMoverCount > 30) {
+		console.log('Вы киноман');
+	} else {
+		console.log('Произошла ошибка');
+	}
+}
+
+showMyDB(personalMovieDB.private);
+
+function showMyDB(hidden) {
+	if (!hidden) {
+		console.log(personalMovieDB);
+	}
+}
