@@ -27,10 +27,11 @@ askLastWatchedMovie(2);
 function askLastWatchedMovie(countQuestions) {
 	for (let i = 0; i < countQuestions; i++) {
 		const lastWatchFilm = prompt(
-				'Один из последних просмотренных фильмов?',
-				''
-			),
-			ratingFilms = prompt('На сколько оцените его?', '');
+			'Один из последних просмотренных фильмов?',
+			''
+		).trim();
+
+		const ratingFilms = prompt('На сколько оцените его?', '');
 
 		if (
 			lastWatchFilm !== '' &&
@@ -53,7 +54,7 @@ writeYourGenres();
 
 function writeYourGenres() {
 	for (let i = 1; i <= 3; i++) {
-		const loveGenre = prompt(`Ваш любимый жанр под номером ${i}`, '');
+		const loveGenre = prompt(`Ваш любимый жанр под номером ${i}`, '').trim();
 
 		if (loveGenre !== '' && loveGenre !== null) {
 			personalMovieDB.genres.push(loveGenre);
@@ -63,7 +64,7 @@ function writeYourGenres() {
 	}
 }
 
-// detectPersonalLevel(personalMovieDB.count);
+detectPersonalLevel(personalMovieDB.count);
 
 function detectPersonalLevel(watchedMoverCount) {
 	if (watchedMoverCount < 10) {
